@@ -1,22 +1,22 @@
 # Post-Launch Checklist
 
 
-#### DNS Rerouting
+#### DNS and Subdomain Rerouting
 
 Ensure that all internal and external DNS records are setup pointing/aliased to the correct locations.
 For subdomains that should resolve to the subdomain-less root, ensure that the proper rule is written 
 in the NGINX config:
 
 ```nginx
-# /etc/nginx/sites-available/$SITE_NAME
+# /etc/nginx/sites-available/$DOMAIN_NAME
 
 server {
   # Actual server config
 }
 
 server {
-  server_name www.$SITE_NAME *.$SITE_NAME;
-  rewrite ^/(.*)$ http://$SITE_NAME/$1 permanent;
+  server_name www.$DOMAIN_NAME *.$DOMAIN_NAME;
+  rewrite ^/(.*)$ http://$DOMAIN_NAME/$1 permanent;
 }
 ```
 
@@ -29,6 +29,8 @@ sites, especially sites that have form submissions regardless of whether it is s
 ```bash
 sudo certbot --nginx -d $DOMAIN_NAME
 ```
+
+__All sites should be setup to automatically redirect to the secure version of the site.__
 
 
 #### PageSpeed Insights
