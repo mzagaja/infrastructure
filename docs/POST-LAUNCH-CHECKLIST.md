@@ -47,4 +47,4 @@ To fix the issues regarding:
 
 - "Enable compression": `include` the [ngx-http-gzip.conf](https://github.com/MAPC/infrastructure/blob/master/conf/nginx/snippets/ngx-http-gzip.conf) snippet in your site's server block.
 - "Leverage browser caching": `include` the [leverage-browser-cache.conf](https://github.com/MAPC/infrastructure/blob/master/conf/nginx/snippets/leverage-browser-cache.conf) in your site's server block.
-  Additionally, if your site is using Typekit, you will have to lengthen the cache expiration for your external assets. You can learn how to do that [here](https://blog.typekit.com/2016/01/21/improved-caching-for-kits-opt-for-longer-cache-timeout/)
+  Additionally, if your site is using Typekit, you will have to lengthen the cache expiration for your external assets. You can learn how to do that [here](https://blog.typekit.com/2016/01/21/improved-caching-for-kits-opt-for-longer-cache-timeout/).
