@@ -1,7 +1,7 @@
 # Post-Launch Checklist
 
 
-#### DNS and Subdomain Rerouting
+### DNS and Subdomain Rerouting
 
 Ensure that all internal and external DNS records are setup pointing/aliased to the correct locations.
 For subdomains that should resolve to the subdomain-less root, ensure that the proper rule is written 
@@ -21,7 +21,7 @@ server {
 ```
 
 
-#### Certbot
+### Certbot
 
 Every site must have an SSL certificate. With tech like LetsEncrypt, we have no excuse to not secure our
 sites, especially sites that have form submissions regardless of whether it is sensitive data or not.
@@ -33,7 +33,7 @@ sudo certbot --nginx -d $DOMAIN_NAME
 __All sites should be setup to automatically redirect to the secure version of the site.__
 
 
-#### PageSpeed Insights
+### PageSpeed Insights
 
 It would be desireable to achieve the maximum possible score when run through Google's PageSpeed Insights.
 The ideal would be to have a score of at least 80/100; any red score should be considered unnacceptable. 
@@ -42,3 +42,9 @@ PageSpeed Insights is widely used, there are also plenty of articles and blog po
 execute the steps necessary to achieve our desired score.
 
 [Google PageSpeed Insights](https://developers.google.com/speed/pagespeed/insights/)
+
+To fix the issues regarding: 
+
+- "Enable compression": `include` the [ngx-http-gzip.conf](https://github.com/MAPC/infrastructure/blob/master/conf/nginx/snippets/ngx-http-gzip.conf) snippet in your site's server block.
+- "Leverage browser caching": `include` the [leverage-browser-cache.conf](https://github.com/MAPC/infrastructure/blob/master/conf/nginx/snippets/leverage-browser-cache.conf) in your site's server block.
+  Additionally, if your site is using Typekit, you will have to lengthen the cache expiration for your external assets. You can learn how to do that [here](https://blog.typekit.com/2016/01/21/improved-caching-for-kits-opt-for-longer-cache-timeout/)
