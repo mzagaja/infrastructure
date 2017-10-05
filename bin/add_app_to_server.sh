@@ -50,7 +50,7 @@ git lfs install
 #         root /var/www/myschoolcommute2/current/public;
 #         passenger_enabled on;
 #         passenger_app_env staging;
-#   passenger_env_var DATABASE_URL "postgis://editor:***REMOVED***@db.live.mapc.org/myschoolcommute2_staging";
+#   passenger_env_var DATABASE_URL "postgis://*REMOVED*";
 #   passenger_env_var TEST whatever;
 #   passenger_env_var DATABASE_TEST foo_db;
 
