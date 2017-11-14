@@ -25,6 +25,10 @@ sudo apt-get install -y nginx-extras passenger
 # ​Edit /etc/nginx/nginx.conf and uncomment include /etc/nginx/passenger.conf;
 # sudo service nginx restart
 
+#install GPG and RVM cert
+sudo apt-get install gnupg2
+gpg2 --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3
+
 #install RVM
 sudo apt-add-repository -y ppa:rael-gc/rvm
 sudo apt-get update
