@@ -14,7 +14,7 @@ old=$1
 new=$2
 
 
-sudo usermod -l $old $new
+sudo usermod -l $new $old
 sudo usermod -d /home/$new -m $new
 
 sudo groupmod --new-name $new $old
