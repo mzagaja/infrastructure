@@ -90,3 +90,16 @@ end
 ```
 
 Similarly you may want to add tasks to remove the foreign data wrapper to the `db:drop` command.
+
+## Adding MassBuilds Database to another database
+
+Execute the following script as the user you want to import the massbuilds developments table as. Replace PASSWORD with the password for the user viewer, or replace viewer with the user you want to access the Massbuilds table as and replace PASSWORD with that user's relevant password.
+
+```SQL
+CREATE EXTENSION IF NOT EXISTS postgres_fdw;
+CREATE SERVER apps FOREIGN DATA WRAPPER postgres_fdw OPTIONS (host 'db.live.mapc.org', port '5433', dbname 'massbuilds');"
+CREATE USER MAPPING FOR CURRENT_USER SERVER apps OPTIONS (user 'viewer', password 'PASSWORD');"
+IMPORT FOREIGN SCHEMA editor LIMIT TO (developments) FROM SERVER apps INTO tabular;
+```
+
+This will land the MassBuilds dataset into the tabular schema under the ds database for usage however is needed. It can be exported as CSV, etc. This pattern can also be modified to work in another postgres database.
