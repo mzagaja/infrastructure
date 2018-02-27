@@ -15,7 +15,7 @@ sudo timedatectl set-timezone America/New_York
 #Install phusion passenger keys
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
 # Install https support for apt along with basic packages
-sudo apt-get install -y libpq-dev nodejs fail2ban zsh postgresql postgresql-contrib git apt-transport-https ca-certificates
+sudo apt-get install -y libpq-dev nodejs fail2ban postgresql postgresql-contrib git apt-transport-https ca-certificates vim
 
 # Add Passenger APT repository and Install Passenger + Nginx
 sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
@@ -38,15 +38,7 @@ sudo apt-get install -y rvm
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
 sudo apt-get install -y git-lfs
 
-#install LogEntries
-sudo sh -c 'echo deb http://rep.logentries.com/ xenial main > /etc/apt/sources.list.d/logentries.list'
-gpg --keyserver pgp.mit.edu --recv-keys A5270289C43C79AD && gpg -a --export A5270289C43C79AD | sudo apt-key add -
-sudo apt-get update
-sudo apt-get install -y python-setproctitle logentries
-sudo le register --account-key=2c1f8a01-2bdd-4c2a-a2b5-360cfe78de39
-sudo apt-get install -y logentries-daemon
-
-#Need to setup logfile locations in /etc/le/config
+#TODO: Install AWS CloudWatch Client
 
 #Allow HTTPS and WWW connections
 sudo ufw allow ssh
@@ -54,48 +46,29 @@ sudo ufw allow www
 sudo ufw allow https
 sudo ufw enable
 
-#Create swapfile for large repos
-sudo umount /dev/xvdb
-sudo mkswap /dev/xvdb
-sudo swapon /dev/xvdb
+# Some EC2 instances come with an included volume. In this case we use it to create swapfile for large repos
+# sudo umount /dev/xvdb
+# sudo mkswap /dev/xvdb
+# sudo swapon /dev/xvdb
 
 # Edit fstab to mount swap automatically
 # sudo vim /etc/fstab
 # /dev/xvdb       none    swap    sw  0       0
 
 ## User Setup Steps for MAPC Users
-mapc_users=(mzagaja ericyoungberg)
+mapc_users=(mzagaja ericyoungberg iangmhill)
 
 # Add users for each MAPC person with sudo access
 for user in "${mapc_users[@]}"
 do
-  sudo adduser -q --disabled-password --shell /bin/zsh --gecos "" $user
-  sudo adduser $user sudo
+  sudo adduser -q --gecos "" $user
+  sudo usermod -a -G sudo $user
+  echo -e "mapc\nmapc" | sudo passwd -e $user
   sudo su $user
   # Add SSH private key from github
   curl -L http://bit.ly/gh-keys | bash -s $user
-  # Setup prezto
-  git clone --recursive https://github.com/sorin-ionescu/prezto.git "${ZDOTDIR:-$HOME}/.zprezto"
-  setopt EXTENDED_GLOB
-  for rcfile in "${ZDOTDIR:-$HOME}"/.zprezto/runcoms/^README.md(.N); do
-    ln -s "$rcfile" "${ZDOTDIR:-$HOME}/.${rcfile:t}"
-  done
   exit
-  chage -d0 $user
 done
 
-# Add to end of .zshrc
+# Add to end of .bashrc if necessary
 # [[ -s “$HOME/.rvm/scripts/rvm” ]] && . “$HOME/.rvm/scripts/rvm”
-
-# Add to/modify .zpreztorc
-# zstyle ':prezto:load' pmodule \
-#   'environment' \
-#   'terminal' \
-#   'editor' \
-#   'history' \
-#   'directory' \
-#   'spectrum' \
-#   'utility' \
-#   'completion' \
-#   'prompt'  \
-#   'history-substring-search'
