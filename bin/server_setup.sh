@@ -22,8 +22,10 @@ sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xen
 sudo apt-get update
 sudo apt-get install -y nginx-extras passenger
 
-# ​Edit /etc/nginx/nginx.conf and uncomment include /etc/nginx/passenger.conf;
+# Edit /etc/nginx/nginx.conf and uncomment include /etc/nginx/passenger.conf;
 # sudo service nginx restart
+# Add certbot to crontab
+# 48 6 * * * certbot renew --post-hook "systemctl reload nginx”
 
 #install GPG and RVM cert
 sudo apt-get install gnupg2
@@ -39,12 +41,6 @@ curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.s
 sudo apt-get install -y git-lfs
 
 #TODO: Install AWS CloudWatch Client
-
-#Allow HTTPS and WWW connections
-sudo ufw allow ssh
-sudo ufw allow www
-sudo ufw allow https
-sudo ufw enable
 
 # Some EC2 instances come with an included volume. In this case we use it to create swapfile for large repos
 # sudo umount /dev/xvdb
