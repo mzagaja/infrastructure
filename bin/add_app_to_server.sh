@@ -22,17 +22,18 @@ createdb $app_name
 #Add passwordless sudo for deploy user
 # sudo bash -c 'echo "$1 ALL=(ALL) NOPASSWD: ALL"' -- "$user"  >> '/etc/sudoers.d/mapc'
 
-sudo ln -s /etc/nginx/sites-available/$app_name /etc/nginx/sites-enabled/$app_name
-sudo service nginx restart
-
 # Fix sudoers permissions
 # sudo chown root:root /etc/sudoers.d/mapc
 # sudo chmod 0440 /etc/sudoers.d/mapc
+
+sudo ln -s /etc/nginx/sites-available/$app_name /etc/nginx/sites-enabled/$app_name
+sudo service nginx restart
 
 sudo usermod -a -G rvm $app_name
 
 # Add SSH keys of each MAPC employee to each app user and add SSH key of each MAPC person to their own user account
 # Add public key for user to authorized_keys
+sudo echo 'source /usr/share/rvm/scripts/rvm' >> /home/$app_name/.bashrc
 sudo su $app_name
 rvm user gemsets
 
