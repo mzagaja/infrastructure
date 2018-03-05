@@ -134,6 +134,8 @@ s3cmd put $DIRECTORY/${COMPRESSEDFILE} s3://${BUCKET} --access_key=<IAM_ACCESS_K
 rm $DIRECTORY/$EXPORTFILE $DIRECTORY/$COMPRESSEDFILE
 ```
 
+NOTE: You will need to replace the `<IAM_ACCESS_KEY>` and `<IAM_SECRET_KEY>` placeholders for either of these scripts to work.
+
 Finally, we need to add those scripts to the `/etc/crontab` file so they run automatically.
 
 ```
