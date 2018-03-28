@@ -43,11 +43,13 @@ sudo apt-get install -y git-lfs
 # Install AWS CloudWatch Client
 # In EC2 console attach to CloudWatchAgentServerRole via Actions --> Instance Settings --> Attach/Replace IAM Role
 mkdir cloudwatch-agent
+cd cloudwatch-agent
 wget https://s3.amazonaws.com/amazoncloudwatch-agent/linux/amd64/latest/AmazonCloudWatchAgent.zip
 unzip AmazonCloudWatchAgent.zip
+
+# TODO: Automate install/setup of this.
 # sudo ./install.sh
 # sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-config-wizard
-# cat /opt/aws/amazon-cloudwatch-agent/bin/config.json
 # sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl -a fetch-config -m ec2 -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json -s
 
 # Some EC2 instances come with an included volume. In this case we use it to create swapfile for large repos
