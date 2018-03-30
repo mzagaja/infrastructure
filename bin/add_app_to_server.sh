@@ -17,23 +17,28 @@ sudo chown -R $app_name:$app_name /var/www/$app_name
 
 #setup a postgres db for the user if on staging
 sudo -u postgres createuser $app_name
+
+# Issue: Need to do this as the postgres user
 createdb $app_name
 
-#Add passwordless sudo for deploy user
-# sudo bash -c 'echo "$1 ALL=(ALL) NOPASSWD: ALL"' -- "$user"  >> '/etc/sudoers.d/mapc'
-
-# Fix sudoers permissions
-# sudo chown root:root /etc/sudoers.d/mapc
-# sudo chmod 0440 /etc/sudoers.d/mapc
+# Issue: need to actually create sites-available config file from template
+# See https://stackoverflow.com/a/6215113 to implement template for nginx config file.
 
 sudo ln -s /etc/nginx/sites-available/$app_name /etc/nginx/sites-enabled/$app_name
+
+if [[ sudo nginx -t ]]; then
+    echo "nginx config ok!"
+else
+    exit 1
+fi
+
 sudo service nginx restart
 
 sudo usermod -a -G rvm $app_name
 
 # Add SSH keys of each MAPC employee to each app user and add SSH key of each MAPC person to their own user account
 # Add public key for user to authorized_keys
-sudo echo 'source /usr/share/rvm/scripts/rvm' >> /home/$app_name/.bashrc
+echo 'source /usr/share/rvm/scripts/rvm' | sudo tee -a /home/$app_name/.bashrc > /dev/null
 sudo su $app_name
 rvm user gemsets
 
@@ -44,9 +49,9 @@ do
 done
 
 # install ruby and bundler
-# rvm install $ruby_version
-# rvm use $ruby_version
-# gem install bundler
+rvm install $ruby_version
+rvm use $ruby_version
+gem install bundler
 
 # enable git lfs
 git lfs install
