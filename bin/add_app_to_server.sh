@@ -19,7 +19,7 @@ sudo chown -R $app_name:$app_name /var/www/$app_name
 sudo -u postgres createuser $app_name
 
 # Issue: Need to do this as the postgres user
-createdb $app_name
+sudo -u postgres createdb $app_name
 
 # Issue: need to actually create sites-available config file from template
 # See https://stackoverflow.com/a/6215113 to implement template for nginx config file.
