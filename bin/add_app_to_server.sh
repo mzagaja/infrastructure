@@ -17,8 +17,6 @@ sudo chown -R $app_name:$app_name /var/www/$app_name
 
 #setup a postgres db for the user if on staging
 sudo -u postgres createuser $app_name
-
-# Issue: Need to do this as the postgres user
 sudo -u postgres createdb $app_name
 
 # Issue: need to actually create sites-available config file from template
