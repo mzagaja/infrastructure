@@ -85,7 +85,7 @@ DIRECTORY=/home/pgbackup
 EXPORTFILE=server93-`date +%A`.sql
 COMPRESSEDFILE=${EXPORTFILE}.tgz
 
-/usr/lib/postgresql/9.5/bin/pg_dumpall -f $DIRECTORY/$EXPORTFILE -c --no-password --inserts --username=pgbackup --port=5432
+/usr/lib/postgresql/9.5/bin/pg_dumpall -f $DIRECTORY/$EXPORTFILE -c --no-password --username=pgbackup --port=5432
 tar -czf $DIRECTORY/${COMPRESSEDFILE} $DIRECTORY/${EXPORTFILE}
 
 s3cmd put $DIRECTORY/${COMPRESSEDFILE} s3://${BUCKET} --access_key=<IAM_ACCESS_KEY> --secret_key=<IAM_SECRET_KEY>
@@ -115,7 +115,7 @@ DIRECTORY=/home/pgbackup
 EXPORTFILE=server93-weekly-`date +%V`.sql
 COMPRESSEDFILE=${EXPORTFILE}.tgz
 
-/usr/lib/postgresql/9.5/bin/pg_dumpall -f $DIRECTORY/$EXPORTFILE -c --no-password --inserts --username=pgbackup --port=5432
+/usr/lib/postgresql/9.5/bin/pg_dumpall -f $DIRECTORY/$EXPORTFILE -c --no-password --username=pgbackup --port=5432
 tar -czf $DIRECTORY/${COMPRESSEDFILE} $DIRECTORY/${EXPORTFILE}
 
 s3cmd put $DIRECTORY/${COMPRESSEDFILE} s3://${BUCKET} --access_key=<IAM_ACCESS_KEY> --secret_key=<IAM_SECRET_KEY>
@@ -126,7 +126,7 @@ rm $DIRECTORY/$EXPORTFILE $DIRECTORY/$COMPRESSEDFILE
 EXPORTFILE=server95-weekly-`date +%V`.sql
 COMPRESSEDFILE=${EXPORTFILE}.tgz
 
-/usr/lib/postgresql/9.5/bin/pg_dumpall -f $DIRECTORY/$EXPORTFILE -c --no-password --inserts --username=pgbackup --port=5433
+/usr/lib/postgresql/9.5/bin/pg_dumpall -f $DIRECTORY/$EXPORTFILE -c --no-password --username=pgbackup --port=5433
 tar -czf $DIRECTORY/${COMPRESSEDFILE} $DIRECTORY/${EXPORTFILE}
 
 s3cmd put $DIRECTORY/${COMPRESSEDFILE} s3://${BUCKET} --access_key=<IAM_ACCESS_KEY> --secret_key=<IAM_SECRET_KEY>
@@ -143,4 +143,10 @@ Finally, we need to add those scripts to the `/etc/crontab` file so they run aut
 0 1 * * * pgbackup /etc/cron.backupdb.daily
 0 1 * * 7 pgbackup /etc/cron.backupdb.weekly
 #
+```
+
+Running a restore is as simple as:
+
+```
+psql -f matt_test_dump.tar postgres 2> postgres_import_errors.log 1> postgres_import_stdout.log
 ```
