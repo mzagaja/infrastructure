@@ -6,7 +6,7 @@ In order to backup our production database, the MAPC Digital Services Working Gr
 
 ## Background
 
-Our production database server is an Amazon EC2 instance that we commonly refer to as `db.live`. In order to support older systems whose data has not yet been migrated, `db.live` hosts two versons of PostgreSQL, 9.3 and 9.5. Unsurprisingly, our goal was to backup both database servers, so we could revive `db.live` if it ever went offline.
+Our production database server is an Amazon EC2 instance that we commonly refer to as `db.live`. In order to support older systems whose data has not yet been migrated, `db.live` hosts two versions of PostgreSQL, 9.3 and 9.5. Unsurprisingly, our goal was to backup both database servers, so we could revive `db.live` if it ever went offline.
 
 ## Step-by-step
 
@@ -14,7 +14,7 @@ Setting up the backup of `db.live` generally required 3 tasks. Creating a backup
 
 ### 1. Backup User
 
-In order to backup all of the databases on both servers, we needed a user with the permissions to read *everything*. We originally attempted to create a normal user and assign all of the appropriate privileges to that user; however, it was unclear how to assign read privileges to the PostgreSQL System Catalogs which store the server's permissioning and sensitive settings. Ultimately we decided to create a read-only super user to perform the backups.
+In order to backup all of the databases on both servers, we needed a user with the permissions to read *everything*. We originally attempted to create a normal user and assign all of the appropriate privileges to that user; however, it was unclear how to assign read privileges to the PostgreSQL System Catalogs which store the server's permissions and sensitive settings. Ultimately we decided to create a read-only super user to perform the backups.
 
 Using the `postgres` user in **both PostgreSQL servers**:
 
@@ -59,7 +59,7 @@ We then set up a write-only S3 IAM user so the cron task can directly upload the
 
 Finally, to tie all of this together, we needed to set up the cron task that would run the backup automatically for us. Cron tasks often run as root, but since the root account does not match the PostgreSQL account, authentication fails. Therefore, the cron task needs to be run as the `pgbackup` user.
 
-In order to run `pg_dumpall` programatically without specifying a password, we need to use the --no-password flag and leave the password in a `.pgpass` file in the home directory of the `pgbackup` user. For us, the `.pgpass` file contained:
+In order to run `pg_dumpall` programmatically without specifying a password, we need to use the --no-password flag and leave the password in a `.pgpass` file in the home directory of the `pgbackup` user. For us, the `.pgpass` file contained:
 
 ```
 localhost:5432:*:pgbackup:<PASSWORD>
