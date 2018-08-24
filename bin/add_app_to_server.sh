@@ -6,14 +6,12 @@ ruby_version=$2
 sudo adduser -q --disabled-password --gecos "" $app_name
 sudo mkdir -p /var/www/$app_name/shared/config
 
-# Edit the deploy configuration files
-# nano /var/www/$app_name/shared/config/database.yml &&
-# nano /var/www/$app_name/shared/config/secrets.yml
+# Edit the database configuration file
+# nano /var/www/$app_name/shared/config/database.yml
 
 sudo chown -R $app_name:$app_name /var/www/$app_name
 
-# chmod 600 /var/www/$app_name/shared/config/database.yml
-# chmod 600 /var/www/$app_name/shared/config/secrets.yml
+# sudo chmod 600 /var/www/$app_name/shared/config/database.yml
 
 #setup a postgres db for the user if on staging
 sudo -u postgres createuser $app_name
