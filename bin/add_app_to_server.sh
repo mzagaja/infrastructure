@@ -1,4 +1,4 @@
-mapc_users=(mzagaja ericyoungberg iangmhill)
+mapc_users=(mzagaja ericyoungberg)
 app_name=$1
 ruby_version=$2
 
@@ -14,28 +14,28 @@ sudo chown -R $app_name:$app_name /var/www/$app_name
 # sudo chmod 600 /var/www/$app_name/shared/config/database.yml
 
 #setup a postgres db for the user if on staging
-sudo -u postgres createuser $app_name
-sudo -u postgres createdb $app_name
+# sudo -u postgres createuser $app_name
+# sudo -u postgres createdb $app_name
 
 # Issue: need to actually create sites-available config file from template
 # See https://stackoverflow.com/a/6215113 to implement template for nginx config file.
 
-sudo ln -s /etc/nginx/sites-available/$app_name /etc/nginx/sites-enabled/$app_name
+# sudo ln -s /etc/nginx/sites-available/$app_name /etc/nginx/sites-enabled/$app_name
 
-if [[ sudo nginx -t ]]; then
-    echo "nginx config ok!"
-else
-    exit 1
-fi
+# if [[ sudo nginx -t ]]; then
+#     echo "nginx config ok!"
+# else
+#     exit 1
+# fi
 
-sudo service nginx restart
+# sudo service nginx restart
 
 sudo usermod -a -G rvm $app_name
 
 # Add SSH keys of each MAPC employee to each app user and add SSH key of each MAPC person to their own user account
 # Add public key for user to authorized_keys
 echo 'source /usr/share/rvm/scripts/rvm' | sudo tee -a /home/$app_name/.bashrc > /dev/null
-sudo su $app_name
+sudo su - $app_name
 rvm user gemsets
 
 # Add key of each MAPC user
