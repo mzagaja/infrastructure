@@ -13,9 +13,10 @@ sudo chown -R $app_name:$app_name /var/www/$app_name
 
 # sudo chmod 600 /var/www/$app_name/shared/config/database.yml
 
-#setup a postgres db for the user if on staging
-# sudo -u postgres createuser $app_name
-# sudo -u postgres createdb $app_name
+# Setup a postgres db for the user if on staging. Also need to create postgres database on production.
+# For production use createdb with -p 5433 while on db.live.mapc.org. For staging we do not need that switch.
+# sudo -u postgres createuser -d $app_name
+# sudo -u postgres createdb -O $app_name -p 5433 $app_name
 
 # Issue: need to actually create sites-available config file from template
 # See https://stackoverflow.com/a/6215113 to implement template for nginx config file.
