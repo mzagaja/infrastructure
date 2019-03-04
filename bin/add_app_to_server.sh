@@ -1,4 +1,4 @@
-mapc_users=(mzagaja ericyoungberg)
+mapc_users=(mzagaja ericyoungberg smithwebtek)
 app_name=$1
 ruby_version=$2
 

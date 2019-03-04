@@ -62,7 +62,7 @@ unzip AmazonCloudWatchAgent.zip
 # /dev/xvdb       none    swap    sw  0       0
 
 ## User Setup Steps for MAPC Users
-mapc_users=(mzagaja ericyoungberg iangmhill)
+mapc_users=(mzagaja ericyoungberg smithwebtek)
 
 # Add users for each MAPC person with sudo access
 for user in "${mapc_users[@]}"
