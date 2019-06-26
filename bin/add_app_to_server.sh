@@ -1,6 +1,7 @@
-mapc_users=(mzagaja ericyoungberg smithwebtek)
+mapc_users=(mzagaja smithwebtek)
 app_name=$1
 ruby_version=$2
+app_url=$3
 
 ## User Setup for Deploy Users
 sudo adduser -q --disabled-password --gecos "" $app_name
@@ -15,23 +16,44 @@ sudo chown -R $app_name:$app_name /var/www/$app_name
 
 # Setup a postgres db for the user if on staging. Also need to create postgres database on production.
 # For production use createdb with -p 5433 while on db.live.mapc.org. For staging we do not need that switch.
-# sudo -u postgres createuser -d $app_name
-# sudo -u postgres createdb -O $app_name -p 5433 $app_name
+sudo -u postgres createuser -d $app_name
+sudo -u postgres createdb -O $app_name $app_name
+# -h db.live.mapc.org -p 5433 <--- args for live. Also need to add password argument to this or .pgpass to ubuntu user.
 # TODO: Need to seed database after the deploy
-# TODO: Need to setup SSL certificate https://certbot.eff.org/lets-encrypt/ubuntutrusty-nginx
+# TODO: Add pg_hba.conf update for the app on db.live.mapc.org, or just enable all connections to db.live.mapc.org from live.mapc.org
+sudo certbot -n --nginx -d $app_url
+
+# Setup /etc/nginx/sites-available with a config file for the server
+
+# server {
+#         listen 80;
+#   listen [::]:80;
+
+#   server_name staging.masaferoutessurvey.org;
+
+#         root /var/www/myschoolcommute2/current/public;
+#         passenger_enabled on;
+#         passenger_app_env staging;
+#   passenger_env_var DATABASE_URL "postgis://*REMOVED*";
+#   passenger_env_var TEST whatever;
+#   passenger_env_var DATABASE_TEST foo_db;
+
+#   # include snippets/ssl-dyee.mapc.org.conf;
+#   # include snippets/ssl-params.conf;
+# }
 
 # Issue: need to actually create sites-available config file from template
 # See https://stackoverflow.com/a/6215113 to implement template for nginx config file.
 
-# sudo ln -s /etc/nginx/sites-available/$app_name /etc/nginx/sites-enabled/$app_name
+sudo ln -s /etc/nginx/sites-available/$app_url /etc/nginx/sites-enabled/$app_url
 
-# if [[ sudo nginx -t ]]; then
-#     echo "nginx config ok!"
-# else
-#     exit 1
-# fi
+if [[ sudo nginx -t ]]; then
+   echo "nginx config ok!"
+else
+    exit 1
+fi
 
-# sudo service nginx restart
+sudo service nginx restart
 
 sudo usermod -a -G rvm $app_name
 
@@ -54,22 +76,3 @@ gem install bundler
 
 # enable git lfs
 git lfs install
-
-# Setup /etc/nginx/sites-available with a config file for the server
-
-# server {
-#         listen 80;
-#   listen [::]:80;
-
-#   server_name staging.masaferoutessurvey.org;
-
-#         root /var/www/myschoolcommute2/current/public;
-#         passenger_enabled on;
-#         passenger_app_env staging;
-#   passenger_env_var DATABASE_URL "postgis://*REMOVED*";
-#   passenger_env_var TEST whatever;
-#   passenger_env_var DATABASE_TEST foo_db;
-
-#   # include snippets/ssl-dyee.mapc.org.conf;
-#   # include snippets/ssl-params.conf;
-# }
