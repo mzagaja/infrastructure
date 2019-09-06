@@ -62,17 +62,14 @@ unzip AmazonCloudWatchAgent.zip
 # /dev/xvdb       none    swap    sw  0       0
 
 ## User Setup Steps for MAPC Users
-mapc_users=(mzagaja ericyoungberg smithwebtek)
+mapc_users=(mzagaja ataylor smithwebtek)
 
 # Add users for each MAPC person with sudo access
 for user in "${mapc_users[@]}"
 do
-  sudo adduser -q --gecos "" $user
-  sudo usermod -a -G sudo $user
+  sudo adduser -q --gecos "" --disabled-password --ingroup sudo $user
   echo -e "mapc\nmapc" | sudo passwd -e $user
-  sudo su $user
-  # Add SSH private key from github
-  curl -L http://bit.ly/gh-keys | bash -s $user
+  sudo -u $user curl -L http://bit.ly/gh-keys | bash -s $user
   exit
 done
 
