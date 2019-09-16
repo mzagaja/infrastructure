@@ -20,7 +20,7 @@ sudo apt-get install -y libpq-dev nodejs fail2ban postgresql postgresql-contrib 
 # Add Passenger APT repository and Install Passenger + Nginx
 sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
 sudo apt-get update
-sudo apt-get install -y nginx-extras passenger
+sudo apt-get install -y libnginx-mod-http-passenger
 
 # Edit /etc/nginx/nginx.conf and uncomment include /etc/nginx/passenger.conf;
 # sudo service nginx restart
@@ -36,6 +36,11 @@ sudo apt-add-repository -y ppa:rael-gc/rvm
 sudo apt-get update
 sudo apt-get install -y rvm
 
+#install yarn
+curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+sudo apt-get update && sudo apt-get install yarn
+
 #install git-lfs
 curl -s https://packagecloud.io/install/repositories/github/git-lfs/script.deb.sh | sudo bash
 sudo apt-get install -y git-lfs
@@ -46,6 +51,25 @@ mkdir cloudwatch-agent
 cd cloudwatch-agent
 wget https://s3.amazonaws.com/amazoncloudwatch-agent/linux/amd64/latest/AmazonCloudWatchAgent.zip
 unzip AmazonCloudWatchAgent.zip
+
+# Add Ubuntu GIS Packages
+sudo add-apt-repository ppa:ubuntugis/ppa
+sudo apt-get update
+sudo apt-get install 
+
+# Add PostgreSQL
+sudo apt-get install curl ca-certificates gnupg
+curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+sudo apt-get update
+sudo apt-get install postgresql-11
+
+# Install Certbot
+sudo apt-get update
+sudo apt-get install software-properties-common
+sudo add-apt-repository universe
+sudo add-apt-repository ppa:certbot/certbot
+sudo apt-get update 
+sudo apt-get install certbot python-certbot-nginx
 
 # TODO: Automate install/setup of this.
 # sudo ./install.sh
