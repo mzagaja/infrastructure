@@ -1,4 +1,4 @@
-Staging Server Setup - Ubuntu 16.04
+Staging Server Setup - Ubuntu 18.04
 
 # Go to aws.amazon.com and setup a new m3.medium instance in the console. Use elastic IP to attach a static IP because otherwise you get a new IP if you respawn the instance. Use EBS storage to not lose data upon a reboot.
 # Pipe this into an SSH session: cat commands-to-execute-remotely.sh | ssh blah_server
@@ -21,6 +21,8 @@ sudo apt-get install -y libpq-dev nodejs fail2ban postgresql postgresql-contrib 
 sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
 sudo apt-get update
 sudo apt-get install -y libnginx-mod-http-passenger
+if [ ! -f /etc/nginx/modules-enabled/50-mod-http-passenger.conf ]; then sudo ln -s /usr/share/nginx/modules-available/mod-http-passenger.load /etc/nginx/modules-enabled/50-mod-http-passenger.conf ; fi
+sudo service nginx restart
 
 # Edit /etc/nginx/nginx.conf and uncomment include /etc/nginx/passenger.conf;
 # sudo service nginx restart
