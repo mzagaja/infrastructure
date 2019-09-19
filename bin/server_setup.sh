@@ -95,8 +95,9 @@ mapc_users=(mzagaja ataylor smithwebtek)
 for user in "${mapc_users[@]}"
 do
   sudo adduser -q --gecos "" --disabled-password --ingroup sudo $user
-  echo -e "mapc\nmapc" | sudo passwd -e $user
-  sudo -u $user curl -L http://bit.ly/gh-keys | bash -s $user
+  echo -e "mapc\nmapc" | sudo passwd $user
+  sudo su $user
+  curl -L http://bit.ly/gh-keys | bash -s $user
   exit
 done
 
