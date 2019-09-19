@@ -61,9 +61,10 @@ sudo apt-get install
 
 # Add PostgreSQL
 sudo apt-get install curl ca-certificates gnupg
+sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
 curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt-get update
-sudo apt-get install postgresql-11
+sudo apt-get install postgresql
 
 # Install Certbot
 sudo apt-get update
