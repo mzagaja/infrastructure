@@ -1,7 +1,8 @@
-Staging Server Setup - Ubuntu 18.04
+# Staging Server Setup - Ubuntu 18.04
 
-# Go to aws.amazon.com and setup a new m3.medium instance in the console. Use elastic IP to attach a static IP because otherwise you get a new IP if you respawn the instance. Use EBS storage to not lose data upon a reboot.
-# Pipe this into an SSH session: cat commands-to-execute-remotely.sh | ssh blah_server
+# Go to aws.amazon.com and setup a new m3.medium instance in the console. 
+# Use elastic IP to attach a static IP because otherwise you get a new IP if you respawn the instance. 
+# Use EBS storage to not lose data upon a reboot.
 
 # Get server name from command line argument
 server_name=$1
@@ -14,11 +15,12 @@ sudo timedatectl set-timezone America/New_York
 
 #Install phusion passenger keys
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
+
 # Install https support for apt along with basic packages
-sudo apt-get install -y libpq-dev nodejs fail2ban postgresql postgresql-contrib git apt-transport-https ca-certificates vim
+sudo apt-get install -y libpq-dev nodejs fail2ban postgresql postgresql-contrib git apt-transport-https ca-certificates vim curl software-properties-common
 
 # Add Passenger APT repository and Install Passenger + Nginx
-sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger xenial main > /etc/apt/sources.list.d/passenger.list'
+sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger $(lsb_release -cs) > /etc/apt/sources.list.d/passenger.list'
 sudo apt-get update
 sudo apt-get install -y libnginx-mod-http-passenger
 if [ ! -f /etc/nginx/modules-enabled/50-mod-http-passenger.conf ]; then sudo ln -s /usr/share/nginx/modules-available/mod-http-passenger.load /etc/nginx/modules-enabled/50-mod-http-passenger.conf ; fi
@@ -68,11 +70,17 @@ sudo apt-get install postgresql
 
 # Install Certbot
 sudo apt-get update
-sudo apt-get install software-properties-common
 sudo add-apt-repository universe
 sudo add-apt-repository ppa:certbot/certbot
 sudo apt-get update 
 sudo apt-get install certbot python-certbot-nginx
+
+# Install Docker
+curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release -cs) stable"
+sudo apt-get update
+sudo apt-get install docker-ce docker-ce-cli containerd.io
+sudo groupadd docker
 
 # TODO: Automate install/setup of this.
 # sudo ./install.sh
@@ -89,7 +97,7 @@ sudo apt-get install certbot python-certbot-nginx
 # /dev/xvdb       none    swap    sw  0       0
 
 ## User Setup Steps for MAPC Users
-mapc_users=(mzagaja ataylor smithwebtek)
+mapc_users=(mzagaja ataylor)
 
 # Add users for each MAPC person with sudo access
 for user in "${mapc_users[@]}"
