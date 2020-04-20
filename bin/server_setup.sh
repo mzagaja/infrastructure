@@ -17,12 +17,12 @@ sudo timedatectl set-timezone America/New_York
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
 
 # Install https support for apt along with basic packages
-sudo apt-get install -y libpq-dev nodejs fail2ban postgresql postgresql-contrib git apt-transport-https ca-certificates vim curl software-properties-common
+sudo apt-get install -y libpq-dev nodejs fail2ban postgresql postgresql-contrib apt-transport-https
 
 # Add Passenger APT repository and Install Passenger + Nginx
 sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger $(lsb_release -cs) main > /etc/apt/sources.list.d/passenger.list'
 sudo apt-get update
-sudo apt-get install -y libnginx-mod-http-passenger
+sudo apt-get install -y nginx libnginx-mod-http-passenger
 if [ ! -f /etc/nginx/modules-enabled/50-mod-http-passenger.conf ]; then sudo ln -s /usr/share/nginx/modules-available/mod-http-passenger.load /etc/nginx/modules-enabled/50-mod-http-passenger.conf ; fi
 sudo service nginx restart
 
