@@ -17,7 +17,7 @@ sudo timedatectl set-timezone America/New_York
 sudo apt-key adv --keyserver hkp://keyserver.ubuntu.com:80 --recv-keys 561F9B9CAC40B2F7
 
 # Install https support for apt along with basic packages
-sudo apt-get install -y libpq-dev nodejs fail2ban apt-transport-https
+sudo apt-get install -y libpq-dev nodejs fail2ban apt-transport-https certbot python-certbot-nginx
 
 # Add Passenger APT repository and Install Passenger + Nginx
 sudo sh -c 'echo deb https://oss-binaries.phusionpassenger.com/apt/passenger $(lsb_release -cs) main > /etc/apt/sources.list.d/passenger.list'
@@ -65,11 +65,6 @@ sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs
 curl https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
 sudo apt-get update
 sudo apt-get install postgresql postgresql-contrib
-
-# Install Certbot
-sudo apt-get update
-sudo apt-get update 
-sudo apt-get install certbot python-certbot-nginx
 
 # Install Docker
 curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
