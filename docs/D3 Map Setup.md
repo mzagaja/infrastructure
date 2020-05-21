@@ -3,7 +3,7 @@
 Before starting you should install the utilities you will need:
 
 ```
-yarn global add shapefile mapshaper
+yarn global add shapefile mapshaper d3-geo-projection
 ```
 
 ## The Problem
@@ -73,7 +73,7 @@ The second step to making our data fit the webpage properly is to use `geoprojec
 geoproject 'd3.geoIdentity().reflectY(true).fitSize([900, 700], d)' < 20191125_extreme-heat-vulnerability-MAPC.json > 20191125_extreme-heat-vulnerability-MAPC-projected.json
 ```
 
-The `geoproject` command line tool comes from the shapefile package we installed earlier. We use [`geoIdentity()`](https://github.com/d3/d3-geo/blob/master/README.md#geoIdentity) because we do not want `geoproject` to change our projection, we already set that with `mapshaper` in the previous step. If we did not use mapshaper and had GeoJSON in WGS84 we could use `geoproject` to change our projection by replacing `geoIdentity()` with something like `geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0])`. A list of projections that can be used here are available at [d3-stateplane](https://github.com/veltman/d3-stateplane).
+The `geoproject` command line tool comes from the `d3-geo-projection` package we installed earlier. We use [`geoIdentity()`](https://github.com/d3/d3-geo/blob/master/README.md#geoIdentity) because we do not want `geoproject` to change our projection, we already set that with `mapshaper` in the previous step. If we did not use mapshaper and had GeoJSON in WGS84 we could use `geoproject` to change our projection by replacing `geoIdentity()` with something like `geoConicEqualArea().parallels([34, 40.5]).rotate([120, 0])`. A list of projections that can be used here are available at [d3-stateplane](https://github.com/veltman/d3-stateplane).
 
 We then append `reflectY(true)` because our map from `mapshaper` was upside down and we want to display it in the usual way. Finally we use `fitSize([900, 700], d)` because the target SVG element is going to have a width of 900 pixels and length of 700 pixels. We include the `d` as an argument to `fitSize()` so that we are providing `fitSize()` with the geometry we are changing. It is unclear why `reflectY()` does not need this argument but `fitSize()` does, but it is important for `fitSize()` to work. An example of a target SVG element that this map will be appended to is below.
 
