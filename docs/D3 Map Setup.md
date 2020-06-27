@@ -127,7 +127,7 @@ mapshaper 20191125_extreme-heat-vulnerability-MAPC.shp -o format=geojson - | geo
 In `mapshaper` using a dash `-` instead of a filename with the `-i` and `-o` arguments directs input and output to the terminal (otherwise known as `STDIN` and `STDOUT`). This allows you to skip creating files between the execution of each command. Instead the pipe `|` takes the input of one command and sends it to the next command.
 
 [^1]: Mike Bostock shares in [this Medium response](https://medium.com/@mbostock/your-data-is-already-projected-so-the-simplest-thing-to-do-is-to-use-the-existing-projection-86cb49a9a923) that if your data arrives already projected properly then you do not need to change its projection in the browser.
-[^2]: Most web maps [store their GeoJSON data in EPSG 4326 (a.k.a. WGS84) coordinate system and then project it in EPSG 3857 (a.k.a. web mercator) projection](https://lyzidiamond.com/posts/4326-vs-3857). The GeoJSON specification says [you should store your data in EPSG 4326 (a.k.a. WGS 84)](https://macwright.org/2015/03/23/geojson-second-bite.html#projections). However some libraries like Mapbox GL [require you to store your GeoJSON data in EPSG 3857](https://docs.mapbox.com/help/glossary/projection/).
+[^2]: Most web maps [store their GeoJSON data in EPSG 4326 (a.k.a. WGS84) coordinate system and then project it in EPSG 3857 (a.k.a. web mercator) projection](https://lyzidiamond.com/posts/4326-vs-3857). The GeoJSON specification says [you should store your data in EPSG 4326 (a.k.a. WGS 84)](https://macwright.org/2015/03/23/geojson-second-bite.html#projections).
 
 
 
