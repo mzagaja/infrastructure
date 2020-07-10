@@ -11,5 +11,8 @@ Now you must edit the iterm2_fish_prompt instead of fish_prompt.
 
 
 ## Python virtualenv
-See https://virtualfish.readthedocs.io/en/latest/install.html#customizing-your-fish-prompt
+Install pipenv using brew.
+`brew install pipenv`
 
+[Fish Shell Pipenv Plug-in](https://github.com/sentriz/fish-pipenv/)
+Drop the file in `subl ~/.config/fish/functions/pipenv.fish`
