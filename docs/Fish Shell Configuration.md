@@ -10,10 +10,8 @@ Now you must edit the iterm2_fish_prompt instead of fish_prompt.
 `funced iterm2_fish_prompt`
 
 ## Python Virtual Environments in Fish Shell with pipenv
-[Fish Shell Pipenv Plug-in](https://github.com/sentriz/fish-pipenv/)
 ```sh
 brew install pipenv
-wget -P ~/.config/fish/conf.d -O pipenv.fish https://raw.githubusercontent.com/sentriz/fish-pipenv/master/init.fish
 echo 'set pipenv_fish_fancy yes' >> ~/.config/fish/config.fish
 ```
 
