@@ -24,28 +24,13 @@ if hostname === 'prep-mapc-org'; then
   sudo -u postgres createdb -O $app_name $app_name
 fi
 
-read -s -p "Please add nginx configurtion to /etc/nginx/sites-available/$app_url and then hit enter to continue."
+sudo wget -O /etc/nginx/sites-available/$app_url https://raw.githubusercontent.com/MAPC/infrastructure/master/conf/nginx/site-config.template
+
+read -s -p "Please update nginx configurtion to /etc/nginx/sites-available/$app_url and then hit enter to continue."
 
 # TODO: Need to seed database after the deploy
 # TODO: Add pg_hba.conf update for the app on pg.mapc.org, or just enable all
 # connections to pg.mapc.org from live.mapc.org
-
-# server {
-#         listen 80;
-#   listen [::]:80;
-
-#   server_name staging.masaferoutessurvey.org;
-
-#         root /var/www/myschoolcommute2/current/public;
-#         passenger_enabled on;
-#         passenger_app_env staging;
-#   passenger_env_var DATABASE_URL "postgis://*REMOVED*";
-#   passenger_env_var TEST whatever;
-#   passenger_env_var DATABASE_TEST foo_db;
-
-#   # include snippets/ssl-dyee.mapc.org.conf;
-#   # include snippets/ssl-params.conf;
-# }
 
 # Issue: need to actually create sites-available config file from template
 # See https://stackoverflow.com/a/6215113 to implement template for nginx config file.
