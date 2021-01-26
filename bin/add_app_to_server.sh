@@ -1,3 +1,6 @@
+#!/bin/bash
+# bin/add_app_to_server.sh $app_name $ruby_version $app_url
+
 mapc_users=(mzagaja atomtay)
 app_name=$1
 ruby_version=$2
@@ -9,21 +12,23 @@ sudo mkdir -p /var/www/$app_name/shared/config
 
 # Edit the database configuration file
 # nano /var/www/$app_name/shared/config/database.yml
+read -s -p "Please update /var/www/$app_name/shared/config/database.yml and then hit enter to continue."
 
 sudo chown -R $app_name:$app_name /var/www/$app_name
 
 # sudo chmod 600 /var/www/$app_name/shared/config/database.yml
 
-# Setup a postgres db for the user if on staging. Also need to create postgres database on production.
-# For production use createdb with -p 5433 while on db.live.mapc.org. For staging we do not need that switch.
-sudo -u postgres createuser -d $app_name
-sudo -u postgres createdb -O $app_name $app_name
-# -h db.live.mapc.org -p 5433 <--- args for live. Also need to add password argument to this or .pgpass to ubuntu user.
-# TODO: Need to seed database after the deploy
-# TODO: Add pg_hba.conf update for the app on db.live.mapc.org, or just enable all connections to db.live.mapc.org from live.mapc.org
-sudo certbot -n --nginx -d $app_url
+# Create database if on staging. For production need to do this manually.
+if hostname === 'prep-mapc-org'; then
+  sudo -u postgres createuser -d $app_name
+  sudo -u postgres createdb -O $app_name $app_name
+fi
 
-# Setup /etc/nginx/sites-available with a config file for the server
+read -s -p "Please add nginx configurtion to /etc/nginx/sites-available/$app_url and then hit enter to continue."
+
+# TODO: Need to seed database after the deploy
+# TODO: Add pg_hba.conf update for the app on pg.mapc.org, or just enable all
+# connections to pg.mapc.org from live.mapc.org
 
 # server {
 #         listen 80;
@@ -53,6 +58,8 @@ else
     exit 1
 fi
 
+sudo certbot -n --nginx -d $app_url
+
 sudo service nginx restart
 
 sudo usermod -a -G rvm $app_name
@@ -78,6 +85,6 @@ gem install bundler
 git lfs install
 
 # add nvm
-curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.36.0/install.sh | bash
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.37.2/install.sh | bash
 nvm install node
 nvm alias default node
