@@ -19,7 +19,7 @@ sudo chown -R $app_name:$app_name /var/www/$app_name
 # sudo chmod 600 /var/www/$app_name/shared/config/database.yml
 
 # Create database if on staging. For production need to do this manually.
-if hostname === 'prep-mapc-org'; then
+if [ "$(hostname)" == 'prep-mapc-org' ]; then
   sudo -u postgres createuser -d $app_name
   sudo -u postgres createdb -O $app_name $app_name
 fi
@@ -37,7 +37,7 @@ read -s -p "Please update nginx configurtion to /etc/nginx/sites-available/$app_
 
 sudo ln -s /etc/nginx/sites-available/$app_url /etc/nginx/sites-enabled/$app_url
 
-if [[ sudo nginx -t ]]; then
+if ! sudo nginx -t; then
    echo "nginx config ok!"
 else
     exit 1
