@@ -21,9 +21,6 @@ curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 ## Node Virtual Environment in Fish Shell with fish-nvm
 [Fish NVM](https://github.com/jorgebucaran/fish-nvm)
 ```sh
-brew install nvm
-set -q XDG_CONFIG_HOME; or set XDG_CONFIG_HOME ~/.config
-
 fisher install jorgebucaran/nvm.fish
 ```
 
@@ -33,3 +30,6 @@ fisher install jorgebucaran/nvm.fish
 curl -L --create-dirs -o ~/.config/fish/functions/rvm.fish https://raw.github.com/lunks/fish-nuggets/master/functions/rvm.fish
 echo "rvm default" >> ~/.config/fish/config.fish
 ```
+
+# Fix Husky and Tower Issue
+Following [these instructions](https://www.git-tower.com/help/guides/integration/environment/mac) you should drop-in a file that adds a directory with node into the $PATH for Tower. 
