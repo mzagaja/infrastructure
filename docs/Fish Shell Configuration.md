@@ -32,4 +32,9 @@ echo "rvm default" >> ~/.config/fish/config.fish
 ```
 
 # Fix Husky and Tower Issue
-Following [these instructions](https://www.git-tower.com/help/guides/integration/environment/mac) you should drop-in a file that adds a directory with node into the $PATH for Tower. 
+Following [these instructions](https://www.git-tower.com/help/guides/integration/environment/mac) you should drop-in a file that adds a directory with node into the $PATH for Tower.
+
+# Get Alt Keyboard Shortcuts to Work in iTerm2
+Follow [this Stackoverflow post advice](https://stackoverflow.com/a/48000819/2149359) to set the left ⌥ (option) key to an Esc+ key:
+<img width="1128" alt="image" src="https://user-images.githubusercontent.com/565647/138564899-03607920-60f7-441b-9088-830ef52cb60c.png">
+
