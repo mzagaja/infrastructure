@@ -1,5 +1,10 @@
 # Fish Shell Configuration
 
+## Install Fish Shell
+```
+brew install fish
+```
+
 ## Editor
 Without quotes:
 `set -Ux EDITOR nova -w`
@@ -21,6 +26,7 @@ curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 ## Node Virtual Environment in Fish Shell with fish-nvm
 [Fish NVM](https://github.com/jorgebucaran/fish-nvm)
 ```sh
+brew install nvm
 fisher install jorgebucaran/nvm.fish
 ```
 
@@ -38,3 +44,22 @@ Following [these instructions](https://www.git-tower.com/help/guides/integration
 Follow [this Stackoverflow post advice](https://stackoverflow.com/a/48000819/2149359) to set the left ⌥ (option) key to an Esc+ key:
 <img width="1128" alt="image" src="https://user-images.githubusercontent.com/565647/138564899-03607920-60f7-441b-9088-830ef52cb60c.png">
 
+## Install Monokai Color Scheme for iTerm2
+https://github.com/Monokai/monokai-pro-sublime-text/issues/45
+http://packages.monokai.pro/iterm/monokai-pro-iterm.zip
+
+## GPG Signing with GPG2 and Tower
+```
+brew install pinentry-mac
+fisher install limakzi/fisher-gpg-tty
+```
+
+Update `~/.gnupg/gpg-agent.conf` to work with Tower:
+
+```
+default-cache-ttl 600
+max-cache-ttl 7200
+pinentry-program /usr/local/bin/pinentry-mac
+use-standard-socket
+enable-ssh-support
+```
