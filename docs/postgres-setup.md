@@ -88,20 +88,13 @@ CREATE EXTENSION postgis;
 -- install these if you need them
 CREATE EXTENSION postgis_raster;
 CREATE EXTENSION postgis_topology;
--- 3d and advanced processing 
+-- 3d and advanced processing
 CREATE EXTENSION postgis_sfcgal;
 -- street address normalization
 CREATE EXTENSION address_standardizer;
 -- geocoder/reverse_geocoder for US census data
 CREATE EXTENSION postgis_tiger_geocoder CASCADE;
 ```
-
-## Install ArcSDE Extension
-Download file from MyESRI. Part of ArcServer or ArcDesktop on Windows then its buried in the install files in there. Get the file st_geometry.so and SCP it to your Ubuntu server at
-
-`/usr/lib/postgresql/11/lib/st_geometry.so`
-
-For each application
 
 ## PostGIS Database Migration Instructions
 [PostGIS Hard Upgrade](https://postgis.net/docs/manual-3.0/postgis_installation.html#hard_upgrade)
@@ -140,6 +133,3 @@ pg_restore -v -j 2 -O -x -no-data-for-failed-tables --schema=tabular -d ds filen
 * --no-data-for-failed-tables to avoid restoring auxiliary tables
 
 ## Update applications to point to updated database.
-
-## Rental Listing Database Migration
-Because the Rental Listing Database exists as a few tables in the apps database that are mixed in with other tables, we need to migrate this one in a slightly different way. The [rental-listing-aggregator repo](https://github.com/MAPC/rental-listing-aggregator) now has instructions and a post-migration script for this.
