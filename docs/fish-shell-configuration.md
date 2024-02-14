@@ -37,6 +37,9 @@ curl -L --create-dirs -o ~/.config/fish/functions/rvm.fish https://raw.github.co
 echo "rvm default" >> ~/.config/fish/config.fish
 ```
 
+## Set 1Password as Default SSH Client
+https://developer.1password.com/docs/ssh/agent/compatibility#configure-ssh_auth_sock-globally-for-every-client
+
 # Fix Husky and Tower Issue
 Following [these instructions](https://www.git-tower.com/help/guides/integration/environment/mac) you should drop-in a file that adds a directory with node into the $PATH for Tower.
 
