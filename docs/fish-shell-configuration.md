@@ -53,3 +53,6 @@ pinentry-program /opt/homebrew/bin/pinentry-mac
 use-standard-socket
 enable-ssh-support
 ```
+
+## Move Nova Data to Mac
+Follow [these instructions](https://help.panic.com/nova/moving-data/).
