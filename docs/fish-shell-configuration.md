@@ -2,7 +2,11 @@
 
 ## Install Fish Shell
 ```
-brew install fish
+brew install fish &&
+echo /opt/homebrew/bin/fish | sudo tee -a /etc/shells &&
+chsh -s /opt/homebrew/bin/fish &&
+fish_add_path /opt/homebrew/bin &&
+fish_add_path /opt/homebrew/sbin
 ```
 
 ## Editor
@@ -12,30 +16,13 @@ Without quotes:
 ## iTerm 2 Integration
 Install this from iTerm2 --> Install Shell Integration
 
-## Python Virtual Environments in Fish Shell with pipenv
-```sh
-brew install pipenv
-echo 'set pipenv_fish_fancy yes' >> ~/.config/fish/config.fish
-```
 ## Fisher
 Install fisher to manage plug-ins for fish.
 ```
 curl -sL https://git.io/fisher | source && fisher install jorgebucaran/fisher
 ```
-
-## Node Virtual Environment in Fish Shell with fish-nvm
-[Fish NVM](https://github.com/jorgebucaran/fish-nvm)
-```sh
-brew install nvm
-fisher install jorgebucaran/nvm.fish
-```
-
-## RVM Ruby Virtual Environments in Fish Shell with rvm
-[RVM](https://rvm.io/integration/fish)
-```sh
-curl -L --create-dirs -o ~/.config/fish/functions/rvm.fish https://raw.github.com/lunks/fish-nuggets/master/functions/rvm.fish
-echo "rvm default" >> ~/.config/fish/config.fish
-```
+## asdf Install
+https://asdf-vm.com/guide/getting-started.html
 
 ## Set 1Password as Default SSH Client
 https://developer.1password.com/docs/ssh/agent/compatibility#configure-ssh_auth_sock-globally-for-every-client
@@ -52,9 +39,9 @@ https://github.com/Monokai/monokai-pro-sublime-text/issues/45
 http://packages.monokai.pro/iterm/monokai-pro-iterm.zip
 
 ## GPG Signing with GPG2 and Tower
+See https://github.com/fish-shell/fish-shell/issues/6643. The person who made the fisher install removed it. Lucky us.
 ```
 brew install pinentry-mac
-fisher install limakzi/fisher-gpg-tty
 ```
 
 Update `~/.gnupg/gpg-agent.conf` to work with Tower:
@@ -62,7 +49,7 @@ Update `~/.gnupg/gpg-agent.conf` to work with Tower:
 ```
 default-cache-ttl 600
 max-cache-ttl 7200
-pinentry-program /usr/local/bin/pinentry-mac
+pinentry-program /opt/homebrew/bin/pinentry-mac
 use-standard-socket
 enable-ssh-support
 ```
